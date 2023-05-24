@@ -30,9 +30,13 @@ From the landing page in Kibana, navigate to Enterprise Search.
 
 ![ent-search-landing](./images/ent-search-landing.png)
 
+### Create the index 
+
 Here, click on Create an Elasticsearch index and choose the API method. 
 
 Name the index `search-movies`, and click on Create index. 
+
+### Configure the ingest pipeline
 
 Navigate to Pipelines and click on Copy and customize.
 
@@ -49,6 +53,8 @@ On the next screen, add the fields `overview` and `title` and click Continue.
 ![add-inference-fields](./images/add-inference-fields.png)
 
 Click Continue to review the changes and then Create pipeline. 
+
+### Run the script to ingest data
 
 Go to the folder `data` and run the python script `index-data.py` to ingest the movies dataset. 
 
@@ -71,7 +77,81 @@ Run `docker-compose up` to start the application.
 
 Open [localhost:3000](http://localhost:3000) to access the application.
 
+# Use your own dataset
+
+To use your own dataset, you first need to ingest it and then configure the backend API to use it. 
+
+## Load your own data
+
+The first part described in the chapter below can be used similarly to load your own data. 
+
+Use Enterprise Search to create a new index and configure an ML Inference pipeline. In this case, you'll need to choose yourself the fields to generate text expansion, note that ELSER inference works across text fields, and best on shorter spans of text. Those are the fields that the relevance workbench will query. 
+
+Once the index is ready, you can use the same Python script to ingest the data, with additional options. 
+
+```
+python3 index-data.py --es_password=<ELASTICSEARCH_PASSWORD> --cloud_id=<CLOUD_ID> --index_name=<INDEX_NAME> --gzip_file=<GZIP_FILE_NAME>
+```
+
+- ELASTICSEARCH_PASSWORD: Use the default admin password previously saved
+- CLOUD_ID: You can find this information in your Elastic Cloud admin console
+- INDEX_NAME: Your own custom index
+- GZIP_FILE_NAME: The name of the GZIP JSON file containing your dataset. To be placed under `data` folder. 
+
+## Configure the backend API
+
+The file `app-api/app.py` contains at the beginning an object that configure the datasets to use. 
+
+By default, it looks like this: 
+
+```
+datasets = {
+    "movies": {
+        "id": "movies",
+        "label": "Movies",
+        "index": "search-movies",
+        "search_fields": ["title", "overview",  "keywords"],
+        "elser_search_fields": ["ml.inference.overview_expanded.predicted_value", "ml.inference.title_expanded.predicted_value^0.5"],
+        "result_fields": ["title", "overview"],
+        "mapping_fields": {"text": "overview", "title": "title"}
+    }
+}
+```
+
+To add a new dataset, simply add a new entry in the datasets object. 
+
+```
+datasets = {
+    "movies": {
+        "id": "movies",
+        "label": "Movies",
+        "index": "search-movies",
+        "search_fields": ["title", "overview",  "keywords"],
+        "elser_search_fields": ["ml.inference.overview_expanded.predicted_value", "ml.inference.title_expanded.predicted_value^0.5"],
+        "result_fields": ["title", "overview"],
+        "mapping_fields": {"text": "overview", "title": "title"}
+    },
+    "my_custom_data": {
+        "id": "my_custom_data",
+        "label": "My data",
+        "index": "search-custom",
+        "search_fields": ["field1", "field2"],
+        "elser_search_fields": ["ml.inference.field1_expanded.predicted_value", "ml.inference.field2_expanded.predicted_value^0.5"],
+        "result_fields": ["field1", "field2"],
+        "mapping_fields": {"text": "field1", "title": "field2"}
+    }
+}
+```
+
+In the configuration of the new dataset, you need to provide the following informations: 
+- index: Name of the index
+- search_fields: Fields to query for BM25
+- elser_search_fields: Fields to query for ELSER
+- result_fields: Fields to return
+- mapping_fields: Mapping between returned fields and fields expected by the front-end
 
 
 
+## Credits 
 
+<img src="./images/tmdb-logo.svg" width="40"> This product uses the TMDB API but is not endorsed or certified by TMDB.
