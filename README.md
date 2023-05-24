@@ -2,6 +2,8 @@
 
 This application allows you to compare results ranking between the ELSER model and BM25. 
 
+![relevance-workbench](./images/relevance-workbench.png)
+
 You can also try with your own data by forking this repo and plugging the application to your own Elasticsearch deployment. 
 
 # Deploy with default dataset
@@ -150,7 +152,7 @@ In the configuration of the new dataset, you need to provide the following infor
 - result_fields: Fields to return
 - mapping_fields: Mapping between returned fields and fields expected by the front-end
 
-
+Then save the file `app.py` and run the application using docker-compose. 
 
 ## Credits 
 
