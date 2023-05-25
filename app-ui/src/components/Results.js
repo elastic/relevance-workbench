@@ -10,17 +10,41 @@ export default function Results({ query, globalSettings, selectedDataset }) {
   const types = [
     {
       id: 'elser',
+      label: 'Elastic Learned Sparse Encoder',
       rrf_capable: true,
       theme: "light",
       showChange: true
     }, {
       id: 'bm25',
+      label: 'BM25',
       showChange: false,
       theme: "dark",
       rrf_capable: false
     }
   ]
 
+  // const visibleIndices = [
+  //   {
+  //     id: "search-faq-ml-slim",
+  //     name: "search-faq-ml",
+  //     type: "elser",
+  //     description: "Hybrid approx kNN",
+  //     dims: 384,
+  //     rrf_capable: true,
+  //     theme: "light",
+  //     showChange: true,
+  //   },
+  //   {
+  //     id: "search-faq-ml-bm25",
+  //     name: "search-faq-ml",
+  //     type: "bm25",
+  //     description: "Full text search",
+  //     dims: 0,
+  //     rrf_capable: false,
+  //     theme: "dark",
+  //     showChange: false,
+  //   },
+  // ];
 
   useEffect(() => {
     console.log(enableRrf)

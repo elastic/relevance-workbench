@@ -58,10 +58,7 @@ On the next screen, add the fields `overview` and `title` as custom options.
 
 ![fields-mapping](./images/fields-mapping.png)
 
-
-and click Continue. 
-
-
+Then click on Continue. 
 
 ![add-inference-fields](./images/add-inference-fields.png)
 

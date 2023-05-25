@@ -27,7 +27,7 @@ export default function Search() {
       <header className="container mx-auto py-8 px-16">
         <div className="flex items-center">
           <Brand />
-          <h1 className="ml-8 text-lg tracking-wide text-white opacity-70">
+          <h1 className="text-lg tracking-wide text-white opacity-70">
             Relevance Workbench
           </h1>
           <SettingsDropdown globalSettings={globalSettings} setGlobalSettings={setGlobalSettings} />

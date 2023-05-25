@@ -10,7 +10,7 @@ datasets = {
     "movies": {
         "id": "movies",
         "label": "Movies",
-        "index": "search-movies",
+        "index": "search-movies-ml",
         "search_fields": ["title", "overview",  "keywords"],
         "elser_search_fields": ["ml.inference.overview_expanded.predicted_value", "ml.inference.title_expanded.predicted_value^0.5"],
         "result_fields": ["title", "overview"],
