@@ -107,7 +107,7 @@ The first part described in the chapter below can be used similarly to load your
 
 Use Enterprise Search to create a new index and configure an ML Inference pipeline. In this case, you'll need to choose yourself the fields to generate text expansion, note that ELSER inference works across text fields, and best on shorter spans of text. Those are the fields that the relevance workbench will query. 
 
-Once the index is ready, you can use the same Python script to ingest the data, with additional options. 
+Once the index is ready, use the same Python script to ingest the data, with additional options. 
 
 ```
 python3 index-data.py --es_password=<ELASTICSEARCH_PASSWORD> --cloud_id=<CLOUD_ID> --index_name=<INDEX_NAME> --gzip_file=<GZIP_FILE_NAME>
@@ -120,7 +120,7 @@ python3 index-data.py --es_password=<ELASTICSEARCH_PASSWORD> --cloud_id=<CLOUD_I
 
 ## Configure the backend API
 
-The file `app-api/app.py` contains at the beginning an object that configure the datasets to use. 
+At the beginning of the file `app-api/app.py`, you can find an object that configure the datasets to use. 
 
 By default, it looks like this: 
 
@@ -138,7 +138,7 @@ datasets = {
 }
 ```
 
-To add a new dataset, simply add a new entry in the datasets object. 
+To add a new dataset, simply adds a new entry in the datasets object. 
 
 ```
 datasets = {
@@ -163,7 +163,7 @@ datasets = {
 }
 ```
 
-In the configuration of the new dataset, you need to provide the following informations: 
+In the configuration of the new dataset, provides the following informations: 
 - index: Name of the index
 - search_fields: Fields to query for BM25
 - elser_search_fields: Fields to query for ELSER
