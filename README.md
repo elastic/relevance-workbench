@@ -20,7 +20,9 @@ Follow the steps to Create a new deployment. For more details, refer to [Create 
 
 For that demo, you will need to have an Elasticsearch deployment with Enterprise Search enabled and a ML node with at least 4Gb of memory. 
 
-Once created don't forget to save the default admin password in a safe place
+Once created don't forget to save the default admin password in a safe place.
+
+Note that, if you prefer, you can also [deploy Elasticsearch on your own infrastructure](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html)
 
 ## Deploy Elastic Learned Sparse Encoder model
 
@@ -52,7 +54,14 @@ Name the inference pipeline `ml-inference-movies` (notice the existing prefix `m
 
 ![add-inference-pipeline](./images/add-inference-pipeline.png)
 
-On the next screen, add the custom fields `overview` and `title` and click Continue. 
+On the next screen, add the fields `overview` and `title` as custom options.
+
+![fields-mapping](./images/fields-mapping.png)
+
+
+and click Continue. 
+
+
 
 ![add-inference-fields](./images/add-inference-fields.png)
 
