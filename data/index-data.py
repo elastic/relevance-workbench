@@ -13,7 +13,7 @@ parser.add_argument('--es_user', dest='es_user',
 parser.add_argument('--es_password', dest='es_password', required=True)
 parser.add_argument('--cloud_id', dest='cloud_id', required=True)
 parser.add_argument('--index_name', dest='index_name', required=False, default='search-movies')
-parser.add_argument('--gzip_file', dest='gzip_file', required=False, default='movies.json.gz')
+parser.add_argument('--gzip_file', dest='gzip_file', required=False, default='movies-sample.json.gz')
 
 args = parser.parse_args()
 

@@ -14,11 +14,13 @@ To run this demo successfully, you will need an Elasticsearch deployment (> 8.8)
 
 ## Deploy Elasticsearch in Elastic Cloud
 
-Start by signing up for a [free Elastic Cloud trial](https://cloud.elastic.co/registration). After creating an account, you’ll have an active subscription, and you’ll be prompted to create your first deployment.
+If you don't have an Elastic Cloud account, you can start by signing up for a [free Elastic Cloud trial](https://cloud.elastic.co/registration). After creating an account, you’ll have an active subscription, and you’ll be prompted to create your first deployment.
 
 Follow the steps to Create a new deployment. For more details, refer to [Create a deployment](https://www.elastic.co/guide/en/cloud/current/ec-create-deployment.html) in the Elastic Cloud documentation.
 
-Save the default admin password in a safe place. 
+For that demo, you will need to have an Elasticsearch deployment with Enterprise Search enabled and a ML node with at least 4Gb of memory. 
+
+Once created don't forget to save the default admin password in a safe place
 
 ## Deploy Elastic Learned Sparse Encoder model
 
@@ -36,21 +38,21 @@ From the landing page in Kibana, navigate to Enterprise Search.
 
 Here, click on Create an Elasticsearch index and choose the API method. 
 
-Name the index `search-movies`, and click on Create index. 
+Name the index `search-movies` (notice the existing prefix `search-`), and click on Create index. 
 
 ### Configure the ingest pipeline
 
-Navigate to Pipelines and click on Copy and customize.
+On the index configuration screen, navigate to the Pipelines tab and click on Copy and customize.
 
 ![copy-customize](./images/copy-customize.png)
 
 Now click on Add Inference pipeline to configure the inference pipeline. 
 
-Name the inference pipeline `ml-inference-movies` and select the ELSER model. Click continue.
+Name the inference pipeline `ml-inference-movies` (notice the existing prefix `ml-inference-`) and select the ELSER model. Click continue.
 
 ![add-inference-pipeline](./images/add-inference-pipeline.png)
 
-On the next screen, add the fields `overview` and `title` and click Continue. 
+On the next screen, add the custom fields `overview` and `title` and click Continue. 
 
 ![add-inference-fields](./images/add-inference-fields.png)
 
@@ -60,14 +62,30 @@ Click Continue to review the changes and then Create pipeline.
 
 Go to the folder `data` and run the python script `index-data.py` to ingest the movies dataset. 
 
+In order to connect it to the correct Elastic Cloud instance, we need the default admin password you saved after creating the deployment and the Cloud ID for your deployment.
+
+The Cloud ID for your deployment can be found by navigating to the Kibana menu and clicking on the Manage this deployment link. This will take you to the infrastructure management page in Elastic Cloud. Look for the Cloud ID on that page (surrounded by a red box in the screenshot). There is a button at the end of it that you can use to copy the value to the clipboard.
+
+![cloud-id](./images/cloud-id.png)
+
 ```
+# Skip this if you already have installed the script dependencies
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# Run the script
 python3 index-data.py --es_password=<ELASTICSEARCH_PASSWORD> --cloud_id=<CLOUD_ID>
 ```
 
 - ELASTICSEARCH_PASSWORD: Use the default admin password previously saved
 - CLOUD_ID: You can find this information in your Elastic Cloud admin console
 
+Note that by default, only  subset of the dataset (100 movies) is indexed. If you're interested in indexing the whole data (7918 movies), you can select the `movies.json.gz` file by adding the option `--gzip_file=movies.json.gz` to the command line. Note that it might take up to 1 hour to index the full dataset. 
+
 ## Run the application
+
+Once the data have been succesfully indexed, you can run the application to start comparing relevance models. 
 
 The application is composed of a backend Python API and a React frontend. You can run the whole application locally using Docker compose. 
 
