@@ -79,7 +79,7 @@ python3 index-data.py --es_password=<ELASTICSEARCH_PASSWORD> --cloud_id=<CLOUD_I
 ```
 
 - ELASTICSEARCH_PASSWORD: Use the default admin password previously saved
-- CLOUD_ID: You can find this information in your Elastic Cloud admin console
+- CLOUD_ID: See instructions above to retrieve it
 
 Note that by default, only  subset of the dataset (100 movies) is indexed. If you're interested in indexing the whole data (7918 movies), you can select the `movies.json.gz` file by adding the option `--gzip_file=movies.json.gz` to the command line. Note that it might take up to 1 hour to index the full dataset. 
 
